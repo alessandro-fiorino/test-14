@@ -51,8 +51,10 @@ class AccountPartialReconcile(models.Model):
         if vals.get("credit_move_id"):
             ml_ids.append(vals.get("credit_move_id"))
         move_lines = self.env["account.move.line"].browse(ml_ids)
-        invoice = move_lines.filtered(lambda x: x.exists()).move_id
-        # invoice.ensure_one() XXX - should we do this?
+        invoice = move_lines.filtered(lambda x: x.exists()).move_id.filtered(
+            lambda x: x.is_invoice()
+        )
+        invoice.ensure_one()
         # Limit value of reconciliation
         if invoice and invoice.withholding_tax and invoice.amount_net_pay:
             # We must consider amount in foreign currency, if present
@@ -360,7 +362,7 @@ class AccountMove(models.Model):
         readonly=True,
     )
 
-    @api.onchange("line_ids")
+    @api.onchange("invoice_line_ids")
     def _onchange_invoice_line_wt_ids(self):
         self.ensure_one()
         wt_taxes_grouped = self.get_wt_taxes_values()
@@ -415,10 +417,12 @@ class AccountMove(models.Model):
         for invoice in self:
             for line in invoice.invoice_line_ids:
                 taxes = []
-                for wt_tax in line.invoice_line_tax_wt_ids.filtered(lambda x: x.id):
+                for wt_tax in line.invoice_line_tax_wt_ids.filtered(
+                    lambda x: x._origin.id
+                ):
                     res = wt_tax.compute_tax(line.price_subtotal)
                     tax = {
-                        "id": wt_tax.id,
+                        "id": wt_tax._origin.id,
                         "sequence": wt_tax.sequence,
                         "base": res["base"],
                         "tax": res["tax"],

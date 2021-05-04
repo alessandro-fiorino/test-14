@@ -18,7 +18,7 @@ class WithholdingTax(models.Model):
         for wt in self:
             wt.tax = 0
             wt.base = 1
-            if not wt.id:
+            if not wt._origin.id:
                 continue
             self.env.cr.execute(
                 """
@@ -27,7 +27,7 @@ class WithholdingTax(models.Model):
                      and (date_start <= current_date or date_start is null)
                      and (date_stop >= current_date or date_stop is null)
                     ORDER by date_start LIMIT 1""",
-                (wt.id,),
+                (wt._origin.id,),
             )
             rate = self.env.cr.fetchone()
             if rate:
@@ -302,11 +302,7 @@ class WithholdingTaxMove(models.Model):
     )
     statement_id = fields.Many2one("withholding.tax.statement", "Statement")
     wt_type = fields.Selection(
-        [
-            ("in", "In"),
-            ("out", "Out"),
-        ],
-        "Type",
+        string="Type",
         store=True,
         related="statement_id.wt_type",
     )

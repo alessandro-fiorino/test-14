@@ -36,6 +36,7 @@ class RibaList(models.Model):
 
     _name = "riba.distinta"
     _description = "C/O Slip"
+    _inherit = ["mail.thread"]
     _order = "date_created desc"
 
     name = fields.Char(

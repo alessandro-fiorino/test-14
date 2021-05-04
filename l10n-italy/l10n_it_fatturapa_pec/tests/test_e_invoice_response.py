@@ -1,10 +1,12 @@
 # Copyright 2018 Simone Rubino - Agile Business Group
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
+import email
+
 import mock
 
 from odoo.fields import Datetime
 from odoo.modules import get_module_resource
-from odoo.tools import mute_logger
+from odoo.tools import mute_logger, pycompat
 
 from .e_invoice_common import EInvoiceCommon
 
@@ -95,7 +97,9 @@ class TestEInvoiceResponse(EInvoiceCommon):
 
         e_invoices = self.attach_in_model.search([])
 
-        msg_dict = self.env["mail.thread"].message_parse(message=incoming_mail)
+        msg_dict = self.env["mail.thread"].message_parse(
+            self.from_string(incoming_mail)
+        )
 
         self.env["mail.thread"].with_context(
             fetchmail_server_id=self.PEC_server.id
@@ -132,10 +136,9 @@ class TestEInvoiceResponse(EInvoiceCommon):
             with mute_logger("odoo.addons.l10n_it_fatturapa_pec.models.fetchmail"):
                 self.PEC_server.fetch_mail()
 
-        error_mails = outbound_mail_model.search(error_mail_domain)
-        self.assertEqual(len(error_mails), 1)
+        error_mails = outbound_mail_model.search(error_mail_domain, count=True)
+        self.assertEqual(error_mails, 1)
         xml_error = "unbound prefix"
-        self.assertIn(xml_error, error_mails.body_html)
         self.assertIn(xml_error, self.PEC_server.last_pec_error_message)
 
     def test_process_response_MC(self):
@@ -153,3 +156,8 @@ class TestEInvoiceResponse(EInvoiceCommon):
             fetchmail_server_id=self.PEC_server.id
         ).message_process(False, incoming_mail)
         self.assertEqual(e_invoice.state, "recipient_error")
+
+    def from_string(self, text):
+        return email.message_from_string(
+            pycompat.to_text(text), policy=email.policy.SMTP
+        )
