@@ -83,7 +83,6 @@ Qualora questo modulo venisse installato in un DB dove ``l10n_it_codici_carica``
              [
                  ("l10n_it_codici_carica", "l10n_it_appointment_code"),
              ],
-             merge_modules = True,
       )
       >>> openupgrade.rename_models(
              env.cr,
@@ -144,7 +143,6 @@ When ``l10n_it_codici_carica`` is installed in the database you need to follow t
              [
                  ("l10n_it_codici_carica", "l10n_it_appointment_code"),
              ],
-             merge_modules = True,
       )
       >>> openupgrade.rename_models(
              env.cr,

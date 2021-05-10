@@ -87,7 +87,7 @@ class AccountMoveLine(models.Model):
                 if country_id:
                     country_payment_id = country_id
         elif self.move_id.is_purchase_document():
-            country_payment_id = self.invoice_id.partner_id.country_id
+            country_payment_id = self.move_id.partner_id.country_id
         res.update({"country_payment_id": country_payment_id.id})
 
     def _prepare_intrastat_line_payment(self, res):

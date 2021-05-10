@@ -421,6 +421,7 @@ class FatturaPAAttachmentOut(models.Model):
         currency_model = self.env["res.currency"]
         ftpa_doctype_model = self.env["fiscal.document.type"]
         wizard_import = self.env["wizard.import.fatturapa"]
+        rel_docs_model = self.env["fatturapa.related_document_type"]
         partner = partner_model.browse(partner_id)
         company = self.env.company
         currency = currency_model.search(
@@ -484,6 +485,25 @@ class FatturaPAAttachmentOut(models.Model):
         self.set_invoice_line_ids(FatturaBody, debit_account_id, partner, invoice)
         invoice._recompute_dynamic_lines()
         invoice.write(invoice._convert_to_write(invoice._cache))
+
+        rel_docs_dict = {
+            "order": FatturaBody.DatiGenerali.DatiOrdineAcquisto,
+            "contract": FatturaBody.DatiGenerali.DatiContratto,
+            "agreement": FatturaBody.DatiGenerali.DatiConvenzione,
+            "reception": FatturaBody.DatiGenerali.DatiRicezione,
+            "invoice": FatturaBody.DatiGenerali.DatiFattureCollegate,
+        }
+
+        for rel_doc_key, rel_doc_data in rel_docs_dict.items():
+            if not rel_doc_data:
+                continue
+            for rel_doc in rel_doc_data:
+                doc_datas = wizard_import._prepareRelDocsLine(
+                    invoice.id, rel_doc, rel_doc_key
+                )
+                for doc_data in doc_datas:
+                    # Note for v12: must take advantage of batch creation
+                    rel_docs_model.create(doc_data)
 
         wizard_import.set_activity_progress(FatturaBody, invoice)
         wizard_import.set_ddt_data(FatturaBody, invoice)

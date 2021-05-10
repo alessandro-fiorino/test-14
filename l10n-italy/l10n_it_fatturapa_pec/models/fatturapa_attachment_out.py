@@ -21,7 +21,7 @@ RESPONSE_MAIL_REGEX = (
 
 
 class FatturaPAAttachmentOut(models.Model):
-    _inherit = ["fatturapa.attachment.out", "mail.thread"]
+    _inherit = "fatturapa.attachment.out"
 
     state = fields.Selection(
         [
