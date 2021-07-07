@@ -6,9 +6,9 @@
         <field name="model">res.partner.stakeholder</field>
         <field name="arch" type="xml">
             <tree editable="bottom">
-                <field name="res_model" invisible="1" force_save="1"/>
-                <field name='partner_id'/>
-                <field name="tag_ids" widget="many2many_tags"/>
+                <field name="res_model" invisible="1" force_save="1" />
+                <field name='partner_id' />
+                <field name="tag_ids" widget="many2many_tags" />
             </tree>
         </field>    
     </record>
@@ -16,24 +16,38 @@
     <record model="ir.ui.view" id="stakeholder_partner_form">
       <field name="name">stakeholder.partner.form</field>
       <field name="model">res.partner</field>
-        <field name="inherit_id" ref="base.view_partner_form"/>    
+        <field name="inherit_id" ref="base.view_partner_form" />    
         <field name="arch" type="xml">
           <xpath expr="(//notebook/page)[last()]" position="after">
               <page string="Stakeholder">
                   <group>
                   <group>
-                  <div colspan="4">Elenco degli stakeholder di QUESTO partner</div>
-                  <field nolabel="1" name="ref_stakeholder_ids" context="{'default_res_model': 'res.partner'}">
+                  <div
+                  colspan="4"
+                >Elenco degli stakeholder di QUESTO partner</div>
+                  <field
+                  nolabel="1"
+                  name="ref_stakeholder_ids"
+                  context="{'default_res_model': 'res.partner'}"
+                >
                   </field>    
                   </group>
                   <group>    
-                  <div colspan="4">Elenco delle entità COLLEGATE al partner</div>
+                  <div
+                  colspan="4"
+                >Elenco delle entità COLLEGATE al partner</div>
                   <field nolabel="1" name="stakeholder_ids" readonly="1">
                       <tree>
-                          <field name="res_model_label" readonly="1"/>
-                          <field name="name"/>
-                          <button name="action_open_related_record" type="object" icon='fa-external-link' class="oe_stat_button float-left" string=" "/>
-                          <field name="tag_ids" widget="many2many_tags"/>
+                          <field name="res_model_label" readonly="1" />
+                          <field name="name" />
+                          <button
+                      name="action_open_related_record"
+                      type="object"
+                      icon='fa-external-link'
+                      class="oe_stat_button float-left"
+                      string=" "
+                    />
+                          <field name="tag_ids" widget="many2many_tags" />
                       </tree>    
                   </field>
                       </group>    
@@ -46,11 +60,14 @@
     <record model="ir.ui.view" id="stakeholder_lead_form">
         <field name="name">stakeholder_lead_form</field>
         <field name="model">crm.lead</field>
-        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
         <field name="arch" type="xml">
           <xpath expr="(//notebook/page)[last()]" position="after">
               <page string="Stakeholder">
-                  <field name="ref_stakeholder_ids" context="{'default_res_model': 'crm.lead'}">
+                  <field
+              name="ref_stakeholder_ids"
+              context="{'default_res_model': 'crm.lead'}"
+            >
                   </field>    
               </page>    
             </xpath>    
@@ -60,11 +77,14 @@
     <record model="ir.ui.view" id="stakeholder_project_form">
         <field name="name">stakeholder_project_form</field>
         <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="inherit_id" ref="project.edit_project" />
         <field name="arch" type="xml">
           <xpath expr="(//notebook/page)[last()]" position="after">
               <page string="Stakeholder">
-                  <field name="ref_stakeholder_ids" context="{'default_res_model': 'project.project'}">
+                  <field
+              name="ref_stakeholder_ids"
+              context="{'default_res_model': 'project.project'}"
+            >
                   </field>    
               </page>    
             </xpath>    
@@ -74,11 +94,14 @@
     <record model="ir.ui.view" id="stakeholder_task_form">
         <field name="name">stakeholder_task_form</field>
         <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="inherit_id" ref="project.view_task_form2" />
         <field name="arch" type="xml">
           <xpath expr="(//notebook/page)[last()]" position="after">
               <page string="Stakeholder">
-                  <field name="ref_stakeholder_ids" context="{'default_res_model': 'project.task'}">
+                  <field
+              name="ref_stakeholder_ids"
+              context="{'default_res_model': 'project.task'}"
+            >
                   </field>    
               </page>    
             </xpath>    
