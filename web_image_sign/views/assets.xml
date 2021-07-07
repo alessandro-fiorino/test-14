@@ -1,7 +1,14 @@
 <odoo>
-    <template id="assets_backend" name="image_sign_assets" inherit_id="web.assets_backend">
+    <template
+    id="assets_backend"
+    name="image_sign_assets"
+    inherit_id="web.assets_backend"
+  >
         <xpath expr="." position="inside">
-            <script type="text/javascript" src="/web_image_sign/static/src/js/digital_sign.js"/>
+            <script
+        type="text/javascript"
+        src="/web_image_sign/static/src/js/digital_sign.js"
+      />
         </xpath>
     </template>
 </odoo>
