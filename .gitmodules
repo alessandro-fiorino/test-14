@@ -1,0 +1,4 @@
+[submodule "alessandro-fiorino/dd_external_id"]
+	path = alessandro-fiorino/dd_external_id
+	url = git@github.com:alessandro-fiorino/dd_external_id.git
+	branch = 14.0
