@@ -1,0 +1,9 @@
+<odoo>
+  <data>
+
+      <record model="ir.ui.menu" id="purchase.menu_purchase_root">
+          <field name="groups_id" eval="[(4,ref('group_purchase_user_ro'))]" />
+      </record>
+      
+  </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <record id="group_purchase_user_ro" model="res.groups">
+        <field name="name">Utente Sola Lettura</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="base.module_category_operations_purchase"/>
+    </record>
+
+    <record id="purchase.group_purchase_user" model="res.groups">
+        <field name="implied_ids" eval="[(6,0, [ref('group_purchase_user_ro')])]"/>
+    </record>
+
+</data>
+</odoo>
