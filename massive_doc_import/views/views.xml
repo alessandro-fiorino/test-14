@@ -1,0 +1,88 @@
+<odoo>
+  <data>
+
+    <record id="massive_doc_import.search" model="ir.ui.view">
+        <field name="name">massive_doc_import search</field>
+        <field name="model">documents.massive.batch</field>
+        <field name="arch" type="xml">
+            <search string="Batch">
+                <field name="name" string="Batch" />
+            </search>
+        </field>
+    </record>
+
+      <record model="ir.ui.view" id="massive_doc_import.list">
+      <field name="name">massive_doc_import list</field>
+      <field name="model">documents.massive.batch</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name" />
+        </tree>
+      </field>
+    </record>
+      
+      
+    <record model="ir.ui.view" id="massive_doc_import.form">
+      <field name="name">massive_doc_import form</field>
+      <field name="model">documents.massive.batch</field>
+      <field name="arch" type="xml">
+        <form>
+            <header>
+              <button
+              type="object"
+              class="oe_read_only"
+              name="action_process_attachments"
+              string="Analizza documenti"
+            />    
+              <button
+              type="object"
+              class="oe_read_only"
+              name="action_move_lines"
+              string="Sposta documenti"
+            />    
+            </header>    
+            <sheet>
+                <h1><field name="name" /></h1>
+                <group>
+                    <group>
+                        <field name="import_model" />
+                        <field name="set_main" />
+                        <field name="match_field" />
+                        <field name="remove_id" />
+                    </group>
+                    <group>
+                        <field name="import_folder" />
+                        <field name="default_tags" widget="many2many_tags" />
+                    </group>
+                </group>
+                <field name="line_ids" widget="one2many_list">
+                    <tree>
+                        <field name="attachment_id" />
+                        <field name="attachment_name" />
+                        <field name="attachment_type" />
+                        <field name="import_model" />
+                        <field name="import_folder" />
+                        <field name="default_tags" widget="many2many_tags" />
+                        <field name="set_main" string="Princ." />
+                        <field name="import_id" />
+                        <button
+                  name="action_open_related_record"
+                  icon="fa-external-link"
+                  type="object"
+                  string="Doc."
+                  attrs="{'invisible': [('import_id','=',0)]}"
+                />
+                        <field name="partner_id" />
+                    </tree>    
+                </field>  
+                <field name="log" readonly="1" />
+            </sheet>    
+                <div class="oe_chatter">
+                </div>
+          </form>
+      </field>
+    </record>
+      
+      
+  </data>
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        
+         <record id="action_massive_import" model="ir.actions.act_window">
+            <field name="name">Importazione massiva</field>
+            <field name="res_model">documents.massive.batch</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+                
+
+        <menuitem
+      id="menu_massive_import"
+      name="Importazione"
+      action="action_massive_import"
+      parent="documents.menu_root"
+      sequence="3"
+    />      
+        
+        
+    </data>
+</odoo>

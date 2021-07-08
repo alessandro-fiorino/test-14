@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="documents_temp_import" model="documents.folder">
+            <field name="name">Importazione temporaneo</field>
+            <field name="sequence">200</field>
+        </record>
+        
+    </data>
+</odoo>
